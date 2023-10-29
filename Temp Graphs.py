@@ -1,7 +1,9 @@
+from distutils.log import Log
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 import math
+import scipy.integrate as quad
 
 # Constants    (FIND REFERENCES)
 c = 299792458                               # metres per sec
@@ -22,35 +24,28 @@ R_out = 100000 * R_g                        # metres
 nu_st = math.pow(10, 14)
 nu_end = math.pow(10, 19)
 
-# list = [M, Acc_rate, R_g, R_in, R_out]
+logR_in = np.log10(R_in)
+LogR_out = np.log10(R_out)
 
-# for i in range(0,4):
-#     print(list[i])
-#     print(len(str(list[i])))
- 
+lognu_st = np.log10(nu_st)
+lognu_end = np.log10(nu_end)
+
 def Temp (R):   
     numerator = G * M * Acc_rate
     denominator = 8 * np.pi * math.pow(R,3) * SB
     x = math.pow((numerator/denominator),1/4)
     return x
 
-def Flux (T, nu):
-    numerator = 2 * np.pi * h * math.pow(nu, 3) / math.pow(c, 2)
-    denominator = np.exp((h * nu)/(k_B * T) - 1)
-    x = np.pi * numerator/denominator
-    return x
+steps = 1000
+LogRArr = np.linspace(logR_in,LogR_out, steps)
+RArr = np.linspace(R_in,R_out,steps)
 
-R_steps = 1000
-nu_steps = 100
-
-R_range = np.linspace(R_in, R_out, R_steps)
-nu_range = np.linspace(nu_st, nu_end, nu_steps)
-
-array_R_nu = []
-
-for i in range(0, len(nu_range)):
-    R_list = []
-    for j in range(0, len(R_range)):
-        R_list.append(Flux(Temp(R_range[j]), nu_range[i]))
-    array_R_nu.append(R_list)
-
+LogTempArr = []
+for i in range(0, len(LogRArr)):
+    LogTempArr.append(Temp(LogRArr[i]))
+    
+TempArr = []
+for i in range(0, len(RArr)):
+    TempArr.append(Temp(RArr[i]))
+    
+plt.loglog(RArr,TempArr)

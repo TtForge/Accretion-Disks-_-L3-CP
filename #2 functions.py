@@ -42,9 +42,14 @@ def Flux (T, nu):
     return x
 
 steps = 100
-RLogArr = np.logspace(R_in, R_out, steps, True, 10)
-NuLogArr = np.logspace(nu_st, nu_end, steps, True, 10)
-h = (np.log10(R_in)-np.log10(R_out))/steps
+# RLogArr = np.logspace(R_in, R_out, steps, True, 10)
+# NuLogArr = np.logspace(nu_st, nu_end, steps, True, 10)
+# h = (np.log10(R_in)-np.log10(R_out))/steps
+RLogArr = np.linspace(logR_in, LogR_out, steps)
+NuLogArr = np.linspace(lognu_st, lognu_end, steps)
+h = (logR_in-LogR_out)/steps
+
+print(RLogArr)
 
 def Luminosity (nu):
     IntegArr = []
@@ -52,7 +57,7 @@ def Luminosity (nu):
         IntegArr.append(Flux(Temp(RLogArr[i]),nu)*4*np.pi*RLogArr[i])
     total = 0
     for j in range(0, len(IntegArr)):
-        total = total + IntegArr[j]
+        total += IntegArr[j]
     return (h/2)*(IntegArr[0]+IntegArr[-1])+h*total
 
 LumArr = []
