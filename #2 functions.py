@@ -64,6 +64,7 @@ LumArr = []
 for i in range(0,len(NuLogArr)):
     LumArr.append(Luminosity(NuLogArr[i]))
 
+
 # plt.plot(NuLogArr, LumArr)
 
 
