@@ -1,0 +1,23 @@
+def TempViscr (r):
+    # r = R / R_g
+    # r_in = R_in / R_g
+    constant = (3 * G * M * Acc_rate)/(8 * np.pi * SB * R_g**3)
+    T4 = constant * 1/(r**3) * (1 - pow((r_in/r), 0.5))
+    return pow(T4, 0.25)
+
+LogrArr = np.linspace(np.log10(r_in),np.log10(r_out),steps)
+
+TempViscArrr = []
+for i in range(0, len(LogrArr)):
+    TempViscArrr.append(TempViscr(10**LogrArr[i]))
+
+plt.plot(LogRArr, TempViscArrr, label = "Temp + Visc")
+plt.show()
+
+
+
+
+
+TempArr = []
+for i in range(0, len(RArr)):
+    TempArr.append(Temp(RArr[i]))
