@@ -1,5 +1,6 @@
 from cProfile import label
 from distutils.log import Log
+from random import lognormvariate
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
@@ -71,26 +72,48 @@ def Flux(T, nu):
 # nu_power = 14
 # nu = pow(10, nu_power)
 
-def FluxArray (v):
+def FluxArray (Temp, v):
     FluxArr = []
-    for i in range(0, len(TempViscArr)):
-        FluxArr.append(Flux(TempViscArr[i], v))
+    for i in range(0, len(Temp)):
+        FluxArr.append(Flux(Temp[i], v))
     return FluxArr
 
 
 #### 10**(LogNuArr[-1])
 for i in range (14, 20):
-    plt.plot(LogRArr, FluxArray(pow(10, i)), label = "v = 10^" + str(i))
+    plt.plot(LogRArr, FluxArray(TempViscArr, pow(10, LogNuArr[i])), label = "v = 10^" + str(i))
 plt.xlabel('Log(Radius) / $m$')
 plt.ylabel('Flux / $J M^{-1}$')
 plt.legend()
 plt.show()
     
 def integrate (x, y):
-    h = x[i] - x[i-1]
+    h = x[1] - x[0]
     return h/3 * (y[0] + y[-1] + 4 * sum(y[1:-1:2]) + 2 * sum(y[2:-1:2]))
 
-def Luminosity (Flux, R, nu):
+def integrate2 (x, y, nu):
+    total = 0
+    for i in range(0, len(x)-1):
+        h = x[i+1] - x[i]
+        total += h * (y(x[i], nu) + 4*y(x[i]+0.5*h, nu)+y(x[i]+h, nu))
+    return 1/6 * total
+
+def integrand(R, nu):
+    return Flux(Temp(R), nu) * 4 * np.pi * R
+
+def Luminosity2 (R, nu):
+    Lum = []
+    for i in range(0, len(nu)):
+        Lum.append(integrate2(np.power(10, R), integrand, nu[i]))
+    return Lum
+
+def Luminosity3 (R, nu):
+    Lum = []
+    for i in range(0, len(nu)):
+        Lum.append(integrate2(np.power(10, R), integrand, nu[i]) * nu[i])
+    return Lum
+    
+def Luminosity1 (Flux, R, nu):
     integrand = []
     for i in range(0, len(Flux)):
         integrand.append(Flux[i] * 4 * np.pi * R[i])
@@ -98,10 +121,18 @@ def Luminosity (Flux, R, nu):
 
 LumArr = []
 for i in range(0,len(LogNuArr)):
-    LumArr.append(Luminosity(FluxArray(10*(LogNuArr[i])), TempViscArr, 10**(LogNuArr[i])))
+    LumArr.append(Luminosity1(FluxArray(TempViscArr, 10**LogNuArr[i]), np.power(10,LogRArr), 10**(LogNuArr[i])))
     
+print(LumArr)
     
 plt.plot(LogNuArr, np.log10(LumArr), label = "Luminsoity")
 plt.xlabel('$Log_{10}($\nu$)$ / $Hz$')
 plt.ylabel('Luminosity / $W$')
+plt.show()
+
+print(Luminosity2(LogRArr, np.power(10, LogNuArr)))
+
+plt.plot(LogNuArr, np.log10(Luminosity3(LogRArr, np.power(10, LogNuArr))))
+plt.xlabel('$Log_{10}($\nu$)$ / $Hz$')
+plt.ylabel('$Log_{10}(L)$ / $W$')
 plt.show()
