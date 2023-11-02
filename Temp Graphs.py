@@ -87,9 +87,9 @@ plt.ylabel('Flux / $J M^{-1}$')
 plt.legend()
 plt.show()
     
-def integrate (x, y):
-    h = x[1] - x[0]
-    return h/3 * (y[0] + y[-1] + 4 * sum(y[1:-1:2]) + 2 * sum(y[2:-1:2]))
+# def integrate (x, y):
+#     h = x[1] - x[0]
+#     return h/3 * (y[0] + y[-1] + 4 * sum(y[1:-1:2]) + 2 * sum(y[2:-1:2]))
 
 def integrate2 (x, y, nu):
     total = 0
@@ -98,41 +98,56 @@ def integrate2 (x, y, nu):
         total += h * (y(x[i], nu) + 4*y(x[i]+0.5*h, nu)+y(x[i]+h, nu))
     return 1/6 * total
 
+def integrate_Lum (nu, Lum, LogR):
+    total = 0
+    for i in range(0, len(nu)-1):
+        h = nu[i+1] - nu[i]
+        total += h * (Lum(LogR, nu[i]) + 4* Lum(LogR, nu[i]+0.5*h) + Lum(LogR, nu[i] + h))
+    return 1/6 * total
+
 def integrand(R, nu):
     return Flux(Temp(R), nu) * 4 * np.pi * R
 
-def Luminosity2 (R, nu):
-    Lum = []
-    for i in range(0, len(nu)):
-        Lum.append(integrate2(np.power(10, R), integrand, nu[i]))
-    return Lum
+# def Luminosity2 (R, nu):
+#     Lum = []
+#     for i in range(0, len(nu)):
+#         Lum.append(integrate2(np.power(10, R), integrand, nu[i]))
+#     return Lum
 
 def Luminosity3 (R, nu):
     Lum = []
     for i in range(0, len(nu)):
         Lum.append(integrate2(np.power(10, R), integrand, nu[i]) * nu[i])
     return Lum
-    
-def Luminosity1 (Flux, R, nu):
-    integrand = []
-    for i in range(0, len(Flux)):
-        integrand.append(Flux[i] * 4 * np.pi * R[i])
-    return integrate(TempViscArr, integrand)
 
-LumArr = []
-for i in range(0,len(LogNuArr)):
-    LumArr.append(Luminosity1(FluxArray(TempViscArr, 10**LogNuArr[i]), np.power(10,LogRArr), 10**(LogNuArr[i])))
+def Luminosity4(R, nu):
+    return integrate2(np.power(10, R), integrand, nu)
     
-print(LumArr)
+# def Luminosity1 (Flux, R, nu):
+#     integrand = []
+#     for i in range(0, len(Flux)):
+#         integrand.append(Flux[i] * 4 * np.pi * R[i])
+#     return integrate(TempViscArr, integrand)
+
+# LumArr = []
+# for i in range(0,len(LogNuArr)):
+#     LumArr.append(Luminosity1(FluxArray(TempViscArr, 10**LogNuArr[i]), np.power(10,LogRArr), 10**(LogNuArr[i])))
+
+# print(LumArr)
     
-plt.plot(LogNuArr, np.log10(LumArr), label = "Luminsoity")
-plt.xlabel('$Log_{10}($\nu$)$ / $Hz$')
-plt.ylabel('Luminosity / $W$')
-plt.show()
+# plt.plot(LogNuArr, np.log10(LumArr), label = "Luminsoity")
+# plt.xlabel('$Log_{10}($\nu$)$ / $Hz$')
+# plt.ylabel('Luminosity / $W$')
+# plt.show()
 
-print(Luminosity2(LogRArr, np.power(10, LogNuArr)))
+# print(Luminosity2(LogRArr, np.power(10, LogNuArr)))
 
-plt.plot(LogNuArr, np.log10(Luminosity3(LogRArr, np.power(10, LogNuArr))))
+vLum_vals = Luminosity3(LogRArr, np.power(10, LogNuArr))
+
+plt.plot(LogNuArr, np.log10(vLum_vals))
 plt.xlabel('$Log_{10}($\nu$)$ / $Hz$')
 plt.ylabel('$Log_{10}(L)$ / $W$')
 plt.show()
+
+Lum_Tot = integrate_Lum(np.power(10, LogNuArr), Luminosity4, LogRArr)
+print(Lum_Tot)
