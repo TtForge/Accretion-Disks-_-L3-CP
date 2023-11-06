@@ -9,7 +9,7 @@ c = 299792458                               # metres per sec
 G = 0.000000000066743                       # Neuton metres sqared per kg sqaured  
 M_sol = 2000000000000000000000000000000     # Kg
 SB = 0.0000005670374419                     # Stefan Boltzmann - Watt per square metre per Kelvin to forth
-h = 6.62607015 * math.pow(10,-34)           # Joules per Hertz
+planck = 6.62607015 * math.pow(10,-34)           # Joules per Hertz
 k_B = 1.380649 * math.pow(10,-23)           # Boltzmann - Joules per Kelvin
 
 # Galaxy Values

@@ -14,7 +14,17 @@ for i in range(0, len(LogrArr)):
 plt.plot(LogRArr, TempViscArrr, label = "Temp + Visc")
 plt.show()
 
+print((3 * G * M * Acc_rate)/(8 * np.pi * SB))
+print((((3 * G * M * Acc_rate)/(8 * np.pi * SB) * (1/((10**LogRArr[0])**3)) * (1-pow(R_in/(10**LogRArr[0]), 0.5))), 0.25))
+print(TempArr)
+print(TempViscArrR)
 
+
+def Flux (T, nu):
+    numerator = 2 * np.pi * h * math.pow(nu, 3) / math.pow(c, 2)
+    denominator = np.exp((h * nu)/(k_B * T) - 1)
+    x = np.pi * numerator/denominator
+    return x
 
 
 
