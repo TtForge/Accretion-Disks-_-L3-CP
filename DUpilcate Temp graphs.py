@@ -129,6 +129,7 @@ plt.rcParams.update({
     "legend.markerscale": 2,
     "font.family": 'serif',
     "mathtext.fontset": 'dejavuserif',
+    "savefig.format": 'svg',
 })
 
 plt.plot(LogR_to_Logr(LogRArr), TempArr, label = "Temp")
@@ -136,6 +137,7 @@ plt.plot(LogR_to_Logr(LogRArr), TempViscArr, label = "Temp + Visc")
 plt.xlabel('Log(Radius / $R_g$)')
 plt.ylabel('Temperature / $K$')
 plt.legend()
+plt.savefig('Graphs\Temp vs logr.svg', format='svg')
 plt.show()
 
 ''' PLOT TEMP AGAINST r
@@ -195,6 +197,7 @@ for i in range(14, 20):
 plt.xlabel('Log(Radius / $R_g$)')
 plt.ylabel('Log(Flux / $W m^{-2}$)')
 plt.legend()
+plt.savefig('Graphs\LogLog Flux vs r.svg', format='svg')
 plt.show()
 
 #endregion
@@ -202,7 +205,7 @@ plt.show()
 #region Flux vs Temp Plotting
 #####################################################################
 ### Flux vs Temp Plotting ###########################################
-
+'''
 for i in range (14, 20):
     plt.scatter(np.log10(TempViscArr[TMaxIndex:]), np.log10(FluxArrViscFnc(UnLogRArr, math.pow(10,i))[TMaxIndex:]), label = ("v = 10^" + str(i) + ' Hz'), marker = 'x', s=10,  linewidth=0.5)
     # plt.plot(TempViscArr, np.log10(FluxArray(TempViscArr, pow(10, i))), label = ("v = 10^" + str(i)))
@@ -218,7 +221,7 @@ plt.xlabel('Temperature / $K$')
 plt.ylabel('Flux / $W m^{-2}$')
 plt.legend()
 plt.show()
-
+'''
 #endregion
 
 #region Integration and Luminosity Functions
@@ -339,6 +342,7 @@ for z in range(14,20):
 # plt.ylabel('Log($d(L_{\\nu})/dR$ / $Wm$)')
 # plt.legend(bbox_to_anchor=(1,0.7))
 plt.ylim(-3, 10)
+plt.savefig('Graphs\LogLog cropped Integrand vs r.svg', format='svg')
 plt.show()
 
 for z in range(14,20):
@@ -349,6 +353,7 @@ for z in range(14,20):
 plt.xlabel('Log($Radius$ / $R_g$)')
 plt.ylabel('Log($d(L_{\\nu})/dR$ / $Wm$)')
 plt.legend(loc = 'lower left', prop={'size': 10}) # bbox_to_anchor=(1,0.7))
+plt.savefig('Graphs\LogLog Integrand vs r.svg', format='svg')
 plt.show()
 
 #endregion
@@ -365,6 +370,7 @@ vLum_vals2 = Luminosity(UnLogRArr[TMaxIndex:], UnLogNuArr[TMaxIndex:])
 plt.plot(LogNuArr[TMaxIndex:], np.log10(vLum_vals2))
 plt.xlabel('Log($\\nu$ / $Hz$)')
 plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
+plt.savefig('Graphs\LogLog nuL vs nu.svg', format='svg')
 plt.show()
 
 '''############### Total luminosity manual
