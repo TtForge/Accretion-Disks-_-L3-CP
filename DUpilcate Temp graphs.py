@@ -1,5 +1,4 @@
 from cProfile import label
-from matplotlib import legend
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -97,6 +96,9 @@ TempViscArr = TempArrFnc(TempViscR, UnLogRArr)
 TempViscArr[0] = 0.0000000000000001
 
 TMaxIndex = MaxVal(TempViscArr)
+
+print(R_to_r(UnLogRArr[MaxVal(TempViscArr)]))
+
 
 #endregion
 
@@ -373,9 +375,9 @@ plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
 plt.savefig('Graphs\LogLog nuL vs nu.svg', format='svg')
 plt.show()
 
-'''############### Total luminosity manual
+############### Total luminosity manual
 Lum_Tot = integrate_Varx(UnLogNuArr[TMaxIndex:], LuminosityFnc, UnLogRArr[TMaxIndex:]) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity w/ 1000 $\\nu$ & R steps = ' + str(Lum_Tot)) '''
+print('Total Luminosity w/ 1000 $\\nu$ & R steps = ' + str(Lum_Tot)) 
 
 '''############### Scipy Integral
 vLum_vals_sci = Luminosity_Sci(UnLogNuArr)
@@ -389,10 +391,10 @@ plt.show()
 print(vLum_vals_sci[804:807])
 print(LogNuArr[804:807])'''
 
-'''############## Total luminosity Scipy
+############## Total luminosity Scipy
 Lum_Tot_Sci = SciIntegrate2(Luminosity_Sci_Fnc, nu_st, nu_end)
 print('Total Luminosity w/ 1000 $\\nu$ steps using Sci = ' + str(Lum_Tot_Sci))
-'''
+
 
 # Lum_Tot2 = integrate_Lum2(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) + integrate_Lum2(np.power(10, LogNuArr[TMaxIndex:]), LuminosityFnc, LogRArr[TMaxIndex:])
 # print('Integrate 2 = ' + str(Lum_Tot2))
