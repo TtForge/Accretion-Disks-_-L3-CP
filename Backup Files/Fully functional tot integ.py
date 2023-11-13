@@ -46,14 +46,14 @@ def unlog(x):
 
 #####################################################################
 
-Rsteps = 1000
+Rsteps = 1001
 LogRArr = np.linspace(np.log10(R_in),np.log10(R_out), Rsteps)
 UnLogRArr = unlog(LogRArr)
 UnLogRArr[0] = R_in + 1
 def LogRArrVar (steps):
     return np.linspace(np.log10(R_in),np.log10(R_out), steps)
 
-nusteps = 1000
+nusteps = 1001
 LogNuArr = np.linspace(lognu_st, lognu_end, nusteps)
 UnLogNuArr = unlog(LogNuArr)
 def LogNuArrVar (steps):
@@ -97,11 +97,12 @@ TempViscArr[0] = 0.0000000000000001
 
 TMaxIndex = MaxVal(TempViscArr)
 
-print(R_to_r(UnLogRArr[MaxVal(TempViscArr)]))
+# print(UnLogRArr[MaxVal(TempViscArr)]/R_g)
+# print(TempViscArr[MaxVal(TempViscArr)])
 
 
 #endregion
-
+'''
 #region Temp plotting
 #####################################################################
 ### Temperature Plotting ############################################
@@ -142,16 +143,16 @@ plt.legend()
 plt.savefig('Graphs\Temp vs logr.svg', format='svg')
 plt.show()
 
-''' PLOT TEMP AGAINST r
-plt.plot(LogR_to_Logr(LogRArr), TempViscArr_r, label = "Temp + Visc")
+'''
+'''plt.plot(LogR_to_Logr(LogRArr), TempViscArr_r, label = "Temp + Visc")
 plt.xlabel('Log(Radius / $R_g$)') 
 plt.ylabel('Temperature / $K$')
 plt.legend()
-plt.show()
+plt.show()'''
 '''
 
 #endregion
-
+'''
 #region Flux fncs + plotting 
 #####################################################################
 ### Flux Functions + Plotting #######################################
@@ -180,7 +181,7 @@ def FluxVisc (R, nu):
     constant = (2 * pi * planck) / (math.pow(c, 2))
     exponent = (planck * nu) / (k_B * TempViscR(R))
     B_v = (constant * math.pow(nu, 3)) / (np.exp(exponent) - 1)
-    return pi * B_v
+    return B_v
 
 def FluxArrayFnc (Tfnc, nu, RArr):
     FluxArr = []
@@ -193,7 +194,7 @@ def FluxArrViscFnc (RArr, nu):
     for i in range(0, len(RArr)):
         FluxArr.append(FluxVisc(RArr[i], nu))
     return FluxArr
-
+'''
 for i in range(14, 20):
     plt.plot(LogR_to_Logr(LogRArr), np.log10(FluxArrViscFnc(UnLogRArr, math.pow(10,i))), label = "v = 10^" + str(i) + ' Hz')
 plt.xlabel('Log(Radius / $R_g$)')
@@ -201,7 +202,7 @@ plt.ylabel('Log(Flux / $W m^{-2}$)')
 plt.legend()
 plt.savefig('Graphs\LogLog Flux vs r.svg', format='svg')
 plt.show()
-
+'''
 #endregion
 
 #region Flux vs Temp Plotting
@@ -237,11 +238,25 @@ def integrate_xVar (x, y, var):
         total += h/6 * (y(x[i], var) + 4*y(x[i]+0.5*h, var) + y(x[i+1], var))
     return total
 
+def integrate_xVar2 (x, y, var):
+    total = 0
+    for i in range(0, len(x)-1, 2):
+        h = (x[i+2]-x[i]) / 6
+        total += h * (y(x[i], var) + 4 * y(x[i+1], var) + y(x[i+2], var))
+    return total
+
 def integrate_Varx (x, y, var):
     total = 0
     for i in range(0, len(x)-1):
         h = abs(x[i+1] - x[i])
         total += h/6 * (y(var, x[i]) + 4*y(var, x[i]+0.5*h) + y(var, x[i+1]))
+    return total
+
+def integrate_Varx2 (x, y, var):
+    total = 0
+    for i in range(0, len(x)-1, 2):
+        h = (x[i+2]-x[i]) / 6
+        total += h * (y(var, x[i]) + 4 * y(var, x[i+1]) + y(var, x[i+2]))
     return total
 
 def integrand (R, nu):
@@ -255,6 +270,9 @@ def Luminosity (R, nu):
 
 def LuminosityFnc (R, nu):
     return integrate_xVar(R, integrand, nu)
+
+def LuminosityFnc2 (R, nu):
+    return integrate_xVar2(R, integrand, nu)
 
 
 def SciIntegrate (fnc, a_low, a_high, b):
@@ -329,7 +347,7 @@ Lum_Tot_Scir = SciIntegrate2(Luminosity_Sci_Fncr, nu_st, nu_end)
 print('Total Luminosity w/ 1000 $\\nu$ steps using Sci = ' + str(Lum_Tot_Scir))
 '''
 #endregion
-
+'''
 #region Integrand Plotting
 #####################################################################
 ### Integrand Plotting ##############################################
@@ -359,14 +377,14 @@ plt.savefig('Graphs\LogLog Integrand vs r.svg', format='svg')
 plt.show()
 
 #endregion
-
+'''
 #region Luminosity Total and plotting
 #####################################################################
 ### Luminosity Total and Plotting ###################################
 
 # vLum_vals1 = Luminosity(LogRArr[:TMaxIndex], np.power(10, LogNuArr[:TMaxIndex]))
 # plt.plot(LogNuArr[:TMaxIndex], np.log10(vLum_vals1))
-
+'''
 ############### Manual Integral
 vLum_vals2 = Luminosity(UnLogRArr[TMaxIndex:], UnLogNuArr[TMaxIndex:])
 plt.plot(LogNuArr[TMaxIndex:], np.log10(vLum_vals2))
@@ -374,10 +392,14 @@ plt.xlabel('Log($\\nu$ / $Hz$)')
 plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
 plt.savefig('Graphs\LogLog nuL vs nu.svg', format='svg')
 plt.show()
-
+'''
 ############### Total luminosity manual
-Lum_Tot = integrate_Varx(UnLogNuArr[TMaxIndex:], LuminosityFnc, UnLogRArr[TMaxIndex:]) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
+# Lum_Tot = integrate_Varx(UnLogNuArr[TMaxIndex:], LuminosityFnc, UnLogRArr[TMaxIndex:]) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
+# print('Total Luminosity w/ 1000 $\\nu$ & R steps = ' + str(Lum_Tot)) 
+
+Lum_Tot = integrate_Varx2(UnLogNuArr, LuminosityFnc2, UnLogRArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
 print('Total Luminosity w/ 1000 $\\nu$ & R steps = ' + str(Lum_Tot)) 
+
 
 '''############### Scipy Integral
 vLum_vals_sci = Luminosity_Sci(UnLogNuArr)
@@ -392,8 +414,8 @@ print(vLum_vals_sci[804:807])
 print(LogNuArr[804:807])'''
 
 ############## Total luminosity Scipy
-Lum_Tot_Sci = SciIntegrate2(Luminosity_Sci_Fnc, nu_st, nu_end)
-print('Total Luminosity w/ 1000 $\\nu$ steps using Sci = ' + str(Lum_Tot_Sci))
+# Lum_Tot_Sci = SciIntegrate2(Luminosity_Sci_Fnc, nu_st, nu_end)
+# print('Total Luminosity w/ 1000 $\\nu$ steps using Sci = ' + str(Lum_Tot_Sci))
 
 
 # Lum_Tot2 = integrate_Lum2(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) + integrate_Lum2(np.power(10, LogNuArr[TMaxIndex:]), LuminosityFnc, LogRArr[TMaxIndex:])
