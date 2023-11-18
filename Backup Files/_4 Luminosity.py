@@ -32,7 +32,7 @@ plt.rcParams.update({
 })
 
 ### Plot
-vLum_vals2 = Luminosity(UnLogRArr, UnLogNuArr)
+vLum_vals2 = Luminosity(UnLogRArr, UnLogNuArr)   #[TMaxIndex:]
 plt.plot(LogNuArr, np.log10(vLum_vals2))
 plt.xlabel('Log($\\nu$ / $Hz$)')
 plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
@@ -40,16 +40,8 @@ plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
 plt.show()
 
 
-NuArr = UnLogNuArrVar(5001)
-RArr = UnLogRArrVar(1001)
-
 ### Total
-Lum_Tot = integrate_Varx2(NuArr, LuminosityFnc2, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int2 w/ 1000 nu & R steps = ' + str(Lum_Tot)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488502463784719e+30
+Lum_Tot = integrate_Varx2(UnLogNuArr, LuminosityFnc2, UnLogRArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
+print('Total Luminosity w/ 1000 nu & R steps = ' + str(Lum_Tot)) 
 
 
-
-Lum_Tot2 = integrate_Varx(NuArr, LuminosityFnc, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int1 w/ 1000 nu & R steps = ' + str(Lum_Tot2)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488254168200538e+30

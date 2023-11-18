@@ -74,18 +74,10 @@ UnLogNuArr = unlog(LogNuArr)
 #####################################################################
 
 # region steps
-# def LogRArrVar (steps):
-#     return np.linspace(np.log10(R_in),np.log10(R_out), steps)
-# def LogNuArrVar (steps):
-#     return np.linspace(lognu_st, lognu_end, steps)
-def UnLogRArrVar (steps):
-    LogArr = np.linspace(np.log10(R_in), np.log10(R_out), steps)
-    Arr = unlog(LogArr)
-    Arr[0] = R_in + 1
-    return Arr
-def UnLogNuArrVar (steps):
-    Arr = np.linspace(lognu_st, lognu_end, steps)
-    return unlog(Arr)
+def LogRArrVar (steps):
+    return np.linspace(np.log10(R_in),np.log10(R_out), steps)
+def LogNuArrVar (steps):
+    return np.linspace(lognu_st, lognu_end, steps)
 # endregion
 
 #####################################################################

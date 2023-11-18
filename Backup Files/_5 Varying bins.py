@@ -31,25 +31,21 @@ plt.rcParams.update({
     "savefig.format": 'svg',
 })
 
-### Plot
-vLum_vals2 = Luminosity(UnLogRArr, UnLogNuArr)
-plt.plot(LogNuArr, np.log10(vLum_vals2))
-plt.xlabel('Log($\\nu$ / $Hz$)')
-plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
-# plt.savefig('Graphs\LogLog nuL vs nu.svg', format='svg')
+### Varying Bins
+
+Lum_Log_Totals = []
+Lum_Totals = []
+steps = [100, 150, 200, 250, 300, 350, 400, 500, 600, 800, 1000, 1200, 1500, 2000]
+for i in steps:
+    LumTotal = integrate_Varx2(unlog(LogNuArrVar(i)[TMaxIndex:]), LuminosityFnc, LogRArrVar(i)[TMaxIndex:])
+    Lum_Totals.append(LumTotal)
+    Lum_Log_Totals.append(np.log10(LumTotal)) # np.log10
+plt.plot(steps, Lum_Totals)
+plt.xlabel('Steps')
+plt.ylabel('Total luminosity / $W$')
 plt.show()
 
-
-NuArr = UnLogNuArrVar(5001)
-RArr = UnLogRArrVar(1001)
-
-### Total
-Lum_Tot = integrate_Varx2(NuArr, LuminosityFnc2, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int2 w/ 1000 nu & R steps = ' + str(Lum_Tot)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488502463784719e+30
-
-
-
-Lum_Tot2 = integrate_Varx(NuArr, LuminosityFnc, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int1 w/ 1000 nu & R steps = ' + str(Lum_Tot2)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488254168200538e+30
+plt.plot(steps, Lum_Log_Totals)
+plt.xlabel('Steps')
+plt.ylabel('Log(Total luminosity / $W$)')
+plt.show()
