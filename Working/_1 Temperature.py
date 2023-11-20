@@ -1,6 +1,5 @@
 from cProfile import label
 import matplotlib.pyplot as plt
-import numpy as np
 # from __FunctionBase import *
 from Testing.__FunctionBase import *
 
@@ -31,25 +30,18 @@ plt.rcParams.update({
     "savefig.format": 'svg',
 })
 
-### Plot
-vLum_vals2 = LuminosityNu(UnLogRArr, UnLogNuArr)
-plt.plot(LogNuArr, np.log10(vLum_vals2))
-plt.xlabel('Log($\\nu$ / $Hz$)')
-plt.ylabel('Log($\\nu L_{\\nu}$ / $W Hz$)')
-# plt.savefig('Graphs\LogLog nuL vs nu.svg', format='svg')
+plt.plot(LogR_to_Logr(LogRArr), TempArr, label = "Temp")
+plt.plot(LogR_to_Logr(LogRArr), TempViscArr, label = "Temp + Visc")
+plt.xlabel('Log(Radius / $R_g$)')
+plt.ylabel('Temperature / $K$')
+plt.legend()
+# plt.savefig('Graphs\Temp vs logr.svg', format='svg')
 plt.show()
 
 
-NuArr = UnLogNuArrVar(5001)
-RArr = UnLogRArrVar(1001)
-
-### Total
-Lum_Tot = integrate_Varx2(NuArr, LuminosityFnc2, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int2 w/ 1000 nu & R steps = ' + str(Lum_Tot)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488502463784719e+30
-
-
-
-Lum_Tot2 = integrate_Varx(NuArr, LuminosityFnc, RArr) # integrate_Lum(np.power(10, LogNuArr[:TMaxIndex]), LuminosityFnc, LogRArr[:TMaxIndex]) +
-print('Total Luminosity int1 w/ 1000 nu & R steps = ' + str(Lum_Tot2)) 
-# RSteps = 1001, NuSteps = 5001, L_tot = 7.488254168200538e+30
+#region Max temperature print
+'''
+print(UnLogRArr[MaxVal(TempViscArr)]/R_g)
+print(TempViscArr[MaxVal(TempViscArr)])
+'''
+#endregion
