@@ -1,8 +1,8 @@
 from cProfile import label
 import matplotlib.pyplot as plt
 import numpy as np
-# from __FunctionBase import *
-from Testing.__FunctionBase import *
+from __FunctionBase import *
+# from Testing.__FunctionBase import *
 
 steps = [101, 151, 201, 251, 301, 351, 401, 501, 601, 801, 1001, 1201, 1501, 2001]
 
