@@ -1,7 +1,7 @@
 from cProfile import label
 import matplotlib.pyplot as plt
-# from __FunctionBase import *
-from Testing.__FunctionBase import *
+from __FunctionBase import *
+# from Testing.__FunctionBase import *
 
 plt.rcParams.update({
     "figure.facecolor":  (1.0, 1.0, 1.0, 0.0),  # red   with alpha = 30%
