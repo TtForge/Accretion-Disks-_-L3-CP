@@ -10,8 +10,16 @@ vLum_vals2 = LuminosityNu(UnLogRArr, UnLogNuArr)
 plt.plot(LogNuArr, np.log10(vLum_vals2), color=colours[4])
 plt.xlabel('Log$_{10}$($\\nu$ / $Hz$)')
 plt.ylabel('Log$_{10}$($\\nu L_{\\nu}$ / $W Hz$)')
-plt.savefig('..\\Graphs\\_4 Log(nu x Luminosity) v Log(nu).svg', format='svg')
+plt.savefig('..\\Graphs\\_4-1-1 Log(nu x Luminosity) v Log(nu).svg', format='svg')
 plt.show()
+
+### Plot
+# vLum_vals2 = LuminosityNu(UnLogRArr, UnLogNuArr)
+# plt.plot(LogNuArr, np.log10(vLum_vals2), color=colours[4])
+# plt.xlabel('Log$_{10}$($\\nu$ / $Hz$)')
+# plt.ylabel('Log$_{10}$($\\nu L_{\\nu}$ / $W Hz$)')
+# plt.savefig('..\\Graphs\\_4-1-2 Log(nu x Luminosity) v Log(nu) Bigger range.svg', format='svg')
+# plt.show()
 
 '''
 NuArr = UnLogNuArrVar(5001)
