@@ -1,13 +1,13 @@
 from cProfile import label
 import matplotlib.pyplot as plt
-from __FunctionBase import *
-# from Testing.__FunctionBase import *
-from __GraphDesign import *
+# from __FunctionBase import *
+from Testing.__FunctionBase import *
+from Testing.__GraphDesign import *
 
 
 plt.plot(LogR_to_Logr(LogRArr), TempArr, '--', label = "Temp", color=colours[7])
 plt.plot(LogR_to_Logr(LogRArr), TempViscArr, label = "Temp + Visc", color=colours[4])
-plt.xlabel('Log(Radius / $R_g$)')
+plt.xlabel('Log$_{10}$(Radius / $R_g$)')
 plt.ylabel('Temperature / $K$')
 plt.legend()
 plt.savefig('..\\Graphs\\_1 Temperature v Log(r).svg', format='svg')

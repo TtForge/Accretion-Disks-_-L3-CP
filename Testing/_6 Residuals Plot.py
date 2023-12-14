@@ -21,7 +21,7 @@ def RVariance(StepVal, LumFnc, j, mode):
         RArr = UnLogRArrVar(i)
         vLum_vals2 = np.array(LumFnc(RArr, NuArr)) / np.array(ReferenceLum)
         plt.plot(np.log10(NuArr), vLum_vals2, label='$Bins_{R} = $' + str(i), color = colours[-k])
-    plt.xlabel('Log($\\nu$ / $Hz$)')
+    plt.xlabel('Log$_{10}$($\\nu$ / $Hz$)')
     plt.ylabel('Residuals $\\frac{L_{\\nu}}{L_{\\nu, ref}}$')
     plt.title('Luminosity residuals varyied w/ radial bins, reference of 1001 bins. Method ' + str(j))
     plt.savefig('..\\Graphs\\_6-1-' + str(j) + ' Radial bin residuals v Frequency ' + mode + '.svg', format='svg')
