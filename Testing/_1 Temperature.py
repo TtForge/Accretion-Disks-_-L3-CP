@@ -10,7 +10,7 @@ plt.plot(LogR_to_Logr(LogRArr), TempViscArr, label = "Temp + Visc", color=colour
 plt.xlabel('Log$_{10}$(Radius / $R_g$)')
 plt.ylabel('Temperature / $K$')
 plt.legend(bbox_to_anchor=(0.9,0.8), fontsize = 18)
-plt.savefig('..\\Graphs\\_1-Temperature-v-Log(r).svg', format='svg')
+plt.savefig('..\\Graphs\\_1 Temperature v Log(r).svg', format='svg')
 plt.show()
 
 
